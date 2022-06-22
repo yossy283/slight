@@ -26,6 +26,28 @@ class UsersController extends Controller
         ]);
     }
 
+    //add 2022/06/20
+    public function index_follows(User $user)
+    {
+        $all_users = $user->getAllFollows();
+
+        return view('users.follows', [
+            'all_users' => $all_users
+
+        ]);
+    }
+
+    public function index_followers(User $user)
+    {
+        $all_users = $user->getAllFollowers();
+
+        return view('users.followers', [
+            'all_users' => $all_users
+
+        ]);
+    }
+    ///add end
+
     /**
      * Show the form for creating a new resource.
      *
