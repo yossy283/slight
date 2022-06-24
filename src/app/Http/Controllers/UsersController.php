@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Tweet;
 use App\Models\Follower;
+use App\Models\Favorite;
+use App\Models\Comment;
 
 class UsersController extends Controller
 {
@@ -128,7 +130,7 @@ class UsersController extends Controller
 
     }
 
-    public function show(User $user, Tweet $tweet, Follower $follower)
+    public function show(User $user, Tweet $tweet, Follower $follower,Favorite $favorite,Comment $comment)
     {
         $login_user = auth()->user();
         $is_following = $login_user->isFollowing($user->id);
@@ -138,11 +140,22 @@ class UsersController extends Controller
         $follow_count = $follower->getFollowCount($user->id);
         $follower_count = $follower->getFollowerCount($user->id);
 
+        //add 2022/06/23
+        $favorite_ids = $favorite->favoriteTweetIds($user->id);
+        $favorite_ids = $favorite_ids->pluck('tweet_id')->toArray();
+        $Ftimelines = $tweet->getUserFavoritesTimeLine($favorite_ids);
+
+        $comment_ids = $comment->commentsTweetIds($user->id);
+        $comment_ids = $comment_ids->pluck('tweet_id')->toArray();
+        $Ctimelines = $tweet->getUserCommentsTimeLine($comment_ids);
+
         return view('users.show', [
             'user'           => $user,
             'is_following'   => $is_following,
             'is_followed'    => $is_followed,
             'timelines'      => $timelines,
+            'Ftimelines'     => $Ftimelines,
+            'Ctimelines'     => $Ctimelines,
             'tweet_count'    => $tweet_count,
             'follow_count'   => $follow_count,
             'follower_count' => $follower_count
