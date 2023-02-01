@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.users')
 
 @section('content')
 <div class="container">
@@ -42,88 +42,110 @@
                         </div>
                         <div class="d-flex justify-content-end">
                             <div class="p-2 d-flex flex-column align-items-center">
-                                <p class="font-weight-bold">ツイート数</p>
-                                <span>{{ $tweet_count }}</span>
+                                <url1><a href="{{ url('users/' .$user->id .'/follows') }}" class="font-weight-bold"> フォロー数 <span class="fw-bold">{{ $follow_count }} </span></a></url1>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
-                                <p class="font-weight-bold">フォロー数</p>
-                                <span>{{ $follow_count }}</span>
-                            </div>
-                            <div class="p-2 d-flex flex-column align-items-center">
-                                <p class="font-weight-bold">フォロワー数</p>
-                                <span>{{ $follower_count }}</span>
+                                <url1><a href="{{ url('users/' .$user->id .'/followers') }}" class="font-weight-bold"> フォロワー数 <span class="fw-bold">{{ $follower_count }} </span></a></url1>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @if (isset($timelines))
-            @foreach ($timelines as $timeline)
-                <div class="col-md-8 mb-3">
-                    <div class="card">
-                        <div class="card-haeder p-3 w-100 d-flex">
-                            <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
-                            <div class="ml-2 d-flex flex-column flex-grow-1">
-                                <p class="mb-0">{{ $timeline->user->name }}</p>
-                                <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">{{ $timeline->user->screen_name }}</a>
-                            </div>
-                            <div class="d-flex justify-content-end flex-grow-1">
-                                <p class="mb-0 text-secondary">{{ $timeline->created_at->format('Y-m-d H:i') }}</p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            {{ $timeline->text }}
-                        </div>
-                        <div class="card-footer py-1 d-flex justify-content-end bg-white">
-                            @if ($timeline->user->id === Auth::user()->id)
-                                <div class="dropdown mr-3 d-flex align-items-center">
-                                    <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-fw"></i>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <a href="{{ url('tweets/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
-                                            <button type="submit" class="dropdown-item del-btn">削除</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endif
-                            <!-- いいね機能ここから -->
-                            <div class="mr-3 d-flex align-items-center">
-                                <a href="{{ url('tweets/' .$timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
-                                <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                @if (!in_array(Auth::user()->id, array_column($timeline->favorites->toArray(), 'user_id'), TRUE))
-                                    <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
-                                        @csrf
-
-                                        <input type="hidden" name="tweet_id" value="{{ $timeline->id }}">
-                                        <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
-                                    </form>
-                                @else
-                                    <form method="POST"action="{{ url('favorites/' .array_column($timeline->favorites->toArray(), 'id', 'user_id')[Auth::user()->id]) }}" class="mb-0">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit" class="btn p-0 border-0 text-danger"><i class="fas fa-heart fa-fw"></i></button>
-                                    </form>
-                                @endif
-                                <p class="mb-0 text-secondary">{{ count($timeline->favorites) }}</p>
-                            </div>
-                            <!-- ここまで -->
-                        </div>
-                    </div>
+        <div class="col-md-8 mb-3">
+            <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link active"
+                        id="tweets-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#tweets"
+                        type="button"
+                        role="tab"
+                        aria-controls="tweets"
+                        aria-selected="true"
+                        >
+                        ツイート
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
+                        id="comments-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#comments"
+                        type="button"
+                        role="tab"
+                        aria-controls="comments"
+                        aria-selected="false"
+                        >
+                        コメント
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
+                        id="experiences-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#experiences"
+                        type="button"
+                        role="tab"
+                        aria-controls="experiences"
+                        aria-selected="false"
+                        >
+                        体験談
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
+                        id="questions-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#questions"
+                        type="button"
+                        role="tab"
+                        aria-controls="questions"
+                        aria-selected="false"
+                        >
+                        相談板
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
+                        id="favorites-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#favorites"
+                        type="button"
+                        role="tab"
+                        aria-controls="favorites"
+                        aria-selected="false"
+                        >
+                        いいね
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content justify-content-center">
+                <div  class="tab-pane active" id="tweets" role="tabpanel" aria-labelledby="tweets-tab">
+                    @include('users.tweets')
                 </div>
-            @endforeach
-        @endif
+                <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab" >
+                    @include('users.comments')
+                </div>
+                <div class="tab-pane" id="experiences" role="tabpanel" aria-labelledby="experiences-tab" >
+                </div>
+                <div class="tab-pane" id="questions" role="tabpanel" aria-labelledby="questions-tab" >
+                </div>
+                <div class="tab-pane" id="favorites" role="tabpanel" aria-labelledby="favorites-tab" >
+                    @include('users.favorites')
+                </div>
+            </div>
+        </div>
     </div>
+    <!--
     <div class="my-4 d-flex justify-content-center">
         {{ $timelines->links() }}
     </div>
+    -->
 </div>
 @endsection
