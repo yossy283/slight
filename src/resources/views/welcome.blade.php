@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex" />
-    <title>SLight</title>
+    <title>slight</title>
 
     <!--Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
@@ -26,7 +26,7 @@
         <div class="mv-bg"></div>
         <!--   videoタグ   -->
         <video id="video" webkit-playsinline="" playsinline="" muted="" autoplay="" loop=""
-            src="video/main_2.mp4"></video>
+            src="video/main_middle.mp4"></video>
         <!--   動画の上に載せるテキスト   -->
         <p class="mv-subtxt">生きづらさを抱えた人のためのコミュニティ</p>
         <p class="mv-txt">slight</p>
