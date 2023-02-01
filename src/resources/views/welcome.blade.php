@@ -16,6 +16,7 @@
     <!-- AniCollection.css library -->
     <link rel="stylesheet" href="https://anijs.github.io/lib/anicollection/anicollection.css">
 
+   
 </head>
 <body>
 <!-- 動画背景 -->
@@ -25,7 +26,7 @@
         <!--   薄いレイヤー   -->
         <div class="mv-bg"></div>
         <!--   videoタグ   -->
-        <video id="video" webkit-playsinline="" playsinline="" muted="" loop=""
+        <video id="video" webkit-playsinline="" playsinline="" muted="" autoplay="" loop="" poster="images/main.jpg"
             src="video/main_middle.mp4"></video>
         <!--   動画の上に載せるテキスト   -->
         <p class="mv-subtxt">生きづらさを抱えた人のためのコミュニティ</p>
@@ -140,6 +141,9 @@
 <script src="js/parallax.min.js"></script>
 <!-- スムーズスクロール部分の記述 -->
 <script src="js/smoothscroll.js"></script>
+<!-- 自動再生部分の記述 -->
+<script src="js/videoautoplay.js"></script>
+
 
 <!--シェアボタン　各自「AddThis」にアクセスしてご自分のシェアボタンを作成してください。-->
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
