@@ -130,7 +130,7 @@ class UsersController extends Controller
 
     }
 
-    public function show(User $user, Tweet $tweet, Follower $follower,Favorite $favorite,Comment $comment)
+    public function show(Request $request, User $user, Tweet $tweet, Follower $follower,Favorite $favorite,Comment $comment)
     {
         $login_user = auth()->user();
         $is_following = $login_user->isFollowing($user->id);
@@ -149,6 +149,45 @@ class UsersController extends Controller
         $comment_ids = $comment_ids->pluck('tweet_id')->toArray();
         $Ctimelines = $tweet->getUserCommentsTimeLine($comment_ids);
 
+        //無限スクロール用 ajaxからrequestがきたら
+        if ($request->ajax()) {
+            //viewでtweets/data.blade.phpと[]の中身を送る
+            $data = $request->all();
+            $message = $data['activated_tab'];
+
+            switch($message) {
+                case 1 :
+                    $viewstring = 'users.tweets';
+                    break;
+                case 2 :
+                    $viewstring = 'users.comments';
+                    break;
+                case 3 :
+                    $viewstring = 'users.experiences';
+                    break;
+                case 4 :
+                    $viewstring = 'users.questions';
+                    break;
+                case 5 :
+                    $viewstring = 'users.favorites';
+                    break;
+                default :
+                    Log::debug($message);
+            }
+            $view = view($viewstring ,[
+                'user'           => $user,
+                'is_following'   => $is_following,
+                'is_followed'    => $is_followed,
+                'timelines'      => $timelines,
+                'Ftimelines'     => $Ftimelines,
+                'Ctimelines'     => $Ctimelines,
+                'tweet_count'    => $tweet_count,
+                'follow_count'   => $follow_count,
+                'follower_count' => $follower_count
+            ])->render();
+
+            return response()->json(['html'=>$view]);
+        }
         return view('users.show', [
             'user'           => $user,
             'is_following'   => $is_following,

@@ -11,10 +11,52 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+        <!--無限スクロール用script -->
+        <script>
+            function loadMoreData(page)
+            {
+                //controller にrequestを送る設定
+                $.ajax({
+                    url:'?page=' + page,
+                    type:'get',
+                    beforeSend: function()
+                    {
+                        $(".ajax-load").show();
+                    }
+                })
+                //接続時にすること id=post-dataのつけ忘れしないように!!!
+                .done(function(data) {
+                    if(data.html == " "){
+                        $('.ajax-load').html("No more records found");
+                        return;
+                    }
+                    $('.ajax-load').hide();
+                    $("#post-data").append(data.html);
+                })
+                //接続に失敗したとにすること console.logはchromeのconsoleから見れる
+                .fail(function(jqXHR,ajaxOptions,thrownError) {
+                    alert("Server not responding...");
+                    console.log("ajax通信に失敗しました");
+                    console.log("jqXHR          : " + jqXHR.status); // HTTPステータスが取得
+                    console.log("textStatus     : " + ajaxOptions);    // タイムアウト、パースエラー
+                    console.log("errorThrown    : " + thrownError.message); // 例外情報
+
+                });
+            }
+            var page = 1;
+            //画面がスクロールされたら実行
+            $(window).scroll(function(){
+                if($(window).scrollTop() + $(window).height() >= $(document).height()){
+                    page++;
+                    loadMoreData(page);
+                }
+            })
+        </script>
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -23,8 +65,6 @@
         <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <!-- icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
-
     </head>
     <body>
         <div id="app">
@@ -94,8 +134,8 @@
             </main>
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     </body>
 </html>
