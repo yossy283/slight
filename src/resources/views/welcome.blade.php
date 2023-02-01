@@ -25,7 +25,7 @@
         <!--   薄いレイヤー   -->
         <div class="mv-bg"></div>
         <!--   videoタグ   -->
-        <video id="video" webkit-playsinline="" playsinline="" muted="" autoplay="" loop=""
+        <video id="video" webkit-playsinline="" playsinline="" muted="" loop=""
             src="video/main_middle.mp4"></video>
         <!--   動画の上に載せるテキスト   -->
         <p class="mv-subtxt">生きづらさを抱えた人のためのコミュニティ</p>
