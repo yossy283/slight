@@ -8,6 +8,7 @@ use App\Models\Tweet;
 use App\Models\Comment;
 use App\Models\Follower;
 
+use Illuminate\Support\Facades\Log;
 class TweetsController extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class TweetsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Tweet $tweet, Follower $follower)
+    public function index(Request $request, Tweet $tweet, Follower $follower)
     {
         $user = auth()->user();
         $follow_ids = $follower->followingIds($user->id);
@@ -23,6 +24,17 @@ class TweetsController extends Controller
         $following_ids = $follow_ids->pluck('followed_id')->toArray();
 
         $timelines = $tweet->getTimelines($user->id, $following_ids);
+
+        //無限スクロール用 ajaxからrequestがきたら
+        if ($request->ajax()) {
+            //viewでtweets/data.blade.phpと[]の中身を送る
+            $view = view('tweets.data',[
+                'user'      => $user,
+                'timelines' => $timelines
+            ])->render();
+
+            return response()->json(['html'=>$view]);
+        }
 
         return view('tweets.index', [
             'user'      => $user,

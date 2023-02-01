@@ -32,7 +32,7 @@ class Tweet extends Model
 
     public function getUserTimeLine(Int $user_id)
     {
-        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
+        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(5);
     }
 
     public function getTweetCount(Int $user_id)
@@ -44,7 +44,7 @@ class Tweet extends Model
     {
         // 自身とフォローしているユーザIDを結合する
         $follow_ids[] = $user_id;
-        return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50);
+        return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(10);
     }
 
     // 詳細画面
@@ -78,5 +78,14 @@ class Tweet extends Model
     public function tweetDestroy(Int $user_id, Int $tweet_id)
     {
         return $this->where('user_id', $user_id)->where('id', $tweet_id)->delete();
+    }
+    //add 2022/06/23 userページのいいねしたorコメントした投稿を参照できるようにするため
+    public function getUserFavoritesTimeLine(Array $tweet_ids)
+    {
+        return $this->whereIn('id', $tweet_ids)->orderBy('created_at', 'DESC')->paginate(5);
+    }
+    public function getUserCommentsTimeLine(Array $tweet_ids)
+    {
+        return $this->whereIn('id', $tweet_ids)->orderBy('created_at', 'DESC')->paginate(5);
     }
 }

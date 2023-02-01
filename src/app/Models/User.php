@@ -114,4 +114,21 @@ class User extends Authenticatable
 
         return;
     }
+
+    //add 2022/0620
+    public function getAllFollows()
+    {
+        //where(引数1:検索したいカラムid,2:<>は「でない」,3:自分のidである$user_id)
+        //usersのテーブルからidが自分のidである$user_idではないidを検索
+        //paginate(5)はページごとに5個表示
+        return $this->follows()->paginate(5);
+    }
+
+    public function getAllFollowers()
+    {
+        //where(引数1:検索したいカラムid,2:<>は「でない」,3:自分のidである$user_id)
+        //usersのテーブルからidが自分のidである$user_idではないidを検索
+        //paginate(5)はページごとに5個表示
+        return $this->followers()->paginate(5);
+    }
 }

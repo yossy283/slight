@@ -30,4 +30,11 @@ class Favorite extends Model
     {
         return $this->where('id', $favorite_id)->delete();
     }
+
+    //add 2022/06/23
+    public function favoriteTweetIds(Int $user_id)
+    {
+        return $this->where('user_id', $user_id)->get('tweet_id');
+    }
+
 }
