@@ -100,7 +100,7 @@
                     <div class="card-body">
                         <h4 class="card-title">sns</h4>
                         <p class="card-text">あなたが今日なにをしたか是非つぶやいてください。そして、誰かのつぶやきにスタンプを押して励まし合いましょう。僕もあなたも一人じゃありません。</p>
-                        <div class="text-center"><a href="#" class="btn btn-dark">近日公開</a></div>
+                        <div class="text-center"><a href="#" class="btn btn-dark">公開予定</a></div>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                     <div class="card-body">
                         <h4 class="card-title">掲示板</h4>
                         <p class="card-text">生きづらさで困った時、あなたはどう解決してますか。一つに情報がまとまっているサイトは中々見つかりませんよね。ここさえ見ればいいような掲示板を目指しています。ご協力よろしくお願いします。</p>
-                        <div class="text-center"><a href="#" class="btn btn-dark">近日公開</a></div>
+                        <div class="text-center"><a href="#" class="btn btn-dark">公開予定</a></div>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                     <div class="card-body">
                         <h4 class="card-title">AI chat</h4>
                         <p class="card-text">生きづらさを誰かに打ち明けたくても、カウンセリングはお金がかかるし、友達に暗い話ばかりしたくないですよね。そんな時はAIに話してみませんか。</p>
-                        <div class="text-center"><a href="#" class="btn btn-dark">近日公開</a></div>
+                        <div class="text-center"><a href="#" class="btn btn-dark">公開予定</a></div>
                     </div>
                 </div>
             </div>
