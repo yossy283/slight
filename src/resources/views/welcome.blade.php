@@ -55,7 +55,7 @@
     <div class="container">
         <h2 class="mt-3" data-anijs="if: scroll, on:window, do: flipInX animated, before: scrollReveal"><span class="title-txt">slight</span>とは</h2>
         <p data-anijs="if: scroll, on:window, do: flipInY animated, before: scrollReveal">
-            うつ病,HSP,発達障害などで悩む方々、それに苦しむ方々を助けたい方々のためのふれあいの場、一助となる場所を目指したコミュニティです。私が研究室のストレスで、社会のレールから外れたとき、家族、指導教員の先生、カウンセラー、心療内科の先生など色んな人が助けてくれました。そんな方々のように、微力でも誰かのためになることがしたいと思いました。そんな目的のために作ったサイトです。
+            うつ病,HSP,発達障害などで悩む方々、それに苦しむ方々を助けたい方々のためのふれあいの場、一助となる場所を目指したコミュニティです。私が研究室のストレスで、社会のレールから外れた時、家族、指導教員の先生、カウンセラー、心療内科の先生など色んな人が助けてくれました。そんな方々のように、微力でも誰かのためになることがしたいと思いました。そんな目的のために作ったサイトです。
         </p>
     </div><!-- /.container -->
 </section>
